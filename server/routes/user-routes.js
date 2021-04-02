@@ -12,22 +12,8 @@ const table = "Thoughts";
 
 // get all users' thoughts
 router.get('/users', (req, res) => {
-  console.log(`Querying for thought(s) from ${req.params.username}.`);
   const params = {
     TableName: table,
-    KeyConditionExpression: "#un = :user",
-    ExpressionAttributeNames: {
-      "#un": "username",
-      "#ca": "cratedAt",
-      "th" : "thought",
-      "#img": "image" // add the image attribut alias
-    },
-    ExpressionAttributeValues: {
-      ":user": req.params.username
-    },
-    ProjectionExpression: "#un, #th, #ca, #img", //add the image to the database response
-    ScanIndexForward: false // false makes the order descending(true is default)
-
   };
   dynamodb.scan(params, (err, data) => {
     if (err) {
@@ -43,17 +29,18 @@ router.get('/users/:username', (req, res) => {
   console.log(`Querying for thought(s) from ${req.params.username}.`);
   const params = {
     TableName: table,
-    ProjectionExpression: "#th, #ca",
     KeyConditionExpression: "#un = :user",
     ExpressionAttributeNames: {
       "#un": "username",
       "#ca": "createdAt",
-      "#th": "thought"
+      "#th": "thought",
+      "#img": "image" // add the image attribute alias
     },
     ExpressionAttributeValues: {
       ":user": req.params.username
     },
-    ProjectionExpression: "#th, #ca"
+    ProjectionExpression: "#un, #th, #ca, #img",
+    ScanIndexForward: false //false makes the order descending(true is )
   };
 
   dynamodb.query(params, (err, data) => {
@@ -88,6 +75,8 @@ router.post('/users', (req, res) => {
     }
   });
 });
+
+
 // // Create new user
 // router.get('/create', (req, res) => {
 //   const params = {
