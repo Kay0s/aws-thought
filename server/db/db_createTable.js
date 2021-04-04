@@ -1,12 +1,12 @@
 // Load the AWS SDK for Node.js
-var AWS = require('aws-sdk');
+let AWS = require('aws-sdk');
 // Set the region 
 AWS.config.update({region: 'us-east-2'});
 
 // Create the DynamoDB service object
-var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+let ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
-var params = {
+let params = {
   AttributeDefinitions: [
     {
       AttributeName: '_id',
