@@ -9,7 +9,7 @@ AWS.config.update(awsConfig);
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-var params = {
+let params = {
     TableName: "Thoughts"
 };
 dynamodb.deleteTable(params, function (err, data) {
